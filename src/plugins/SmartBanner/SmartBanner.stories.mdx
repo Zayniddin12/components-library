@@ -1,0 +1,100 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Plugins / Smart Banner" />
+
+# smartbanner.js
+
+**smartbanner.js Js plugin is available via NPM and YARN:**
+
+smartbanner.js is the plugin which customisable smart app banner for iOS and Android. It supports **Vue2, Vue3, Nuxt2, Nuxt3**
+
+**And SSR must be "true" to working for android**
+
+![play-market](https://raw.githubusercontent.com/ain/smartbanner.js/main/screenshot-android.png)
+![app-store](https://raw.githubusercontent.com/ain/smartbanner.js/main/screenshot-ios.png)
+
+**NPM**
+
+```shell
+  npm i smartbanner.js
+
+```
+
+**Yarn**
+
+```shell
+  yarn add smartbanner.js
+```
+
+# Basic usage for Vue
+
+```
+<meta name="smartbanner:title" content="Smart Application">
+<meta name="smartbanner:author" content="SmartBanner Contributors">
+<meta name="smartbanner:price" content="FREE">
+<meta name="smartbanner:price-suffix-apple" content=" - On the App Store">
+<meta name="smartbanner:price-suffix-google" content=" - In Google Play">
+<meta name="smartbanner:icon-apple" content="https://url/to/apple-store-icon.png">
+<meta name="smartbanner:icon-google" content="https://url/to/google-play-icon.png">
+<meta name="smartbanner:button" content="VIEW">
+<meta name="smartbanner:button-url-apple" content="https://ios/application-url">
+<meta name="smartbanner:button-url-google" content="https://android/application-url">
+<meta name="smartbanner:enabled-platforms" content="android,ios">
+<meta name="smartbanner:close-label" content="Close">
+```
+
+# Basic usage for Nuxt
+
+```
+   {
+     name: 'smartbanner:author',
+     content: 'Musofir Mobil ilovasi',
+   },
+   {
+     name: 'smartbanner:price',
+     content: 'Bepul',
+   },
+   {
+     name: 'smartbanner:price-suffix-apple',
+     content: ' - App Store',
+   },
+   {
+     name: 'smartbanner:price-suffix-google',
+     content: ' -  Google Play',
+   },
+   {
+     name: 'smartbanner:icon-apple',
+     content: '/app-store1.png',
+   },
+   {
+     name: 'smartbanner:icon-google',
+     content: '/playmarket1.webp',
+   },
+   {
+     name: 'smartbanner:button',
+     content: 'Yuklab oling',
+   },
+   {
+     name: 'smartbanner:button-url-apple',
+     content: 'https://apps.apple.com/app/musofir-app/id1665383029',
+   },
+   {
+     name: 'smartbanner:button-url-google',
+     content:
+       'https://play.google.com/store/apps/details?id=org.uicgroup.musofir',
+   },
+   {
+     name: 'smartbanner:enabled-platforms',
+     content: 'android,ios',
+   },
+   {
+     name: 'smartbanner:close-label',
+     content: 'Close',
+   },
+   {
+     name: 'smartbanner:custom-design-modifier',
+     content: 'Hamrayev',
+   },
+```
+
+## [Documentation](https://github.com/ain/smartbanner.js/)

@@ -1,0 +1,26 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Plugins / Vue Toastification" />
+
+# Vue toastification
+
+## For Vue 3
+
+# Issues.
+
+Hi there. If you having this kind of issue `Named export 'useToast' not found`, I will give you a solution. You can use something like this.
+
+```
+import * as pkg from "vue-toastification"
+const { useToast } = pkg
+```
+
+In Nuxt config you should do
+
+```
+build : {
+      transpile: ['vue-toastification']
+   }
+```
+
+[Source](https://github.com/Maronato/vue-toastification/issues/327)

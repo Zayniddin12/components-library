@@ -1,0 +1,332 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title=" Courses / Clean Components  /  Different tasks" />
+
+# Different tasks
+
+Have you ever thought about why you create `folders` on your computer?
+
+Or what your process is for organizing things into those folders?
+
+If you're like most people, you create folders to collect similar things together. Once they're in the same spot, it's much easier to find what you're looking for.
+
+You know that all of your photos are in the `Photos` folder, and that all of your secrets are in the `Secrets folder`. Although it may be a good idea to rename that one to something less obvious...
+
+Within your `Photos` folder you would probably have other folders to further organize things.
+
+Maybe you do this based on date, location, or the people you were with.
+
+No matter how you go about this, you're organizing your things based on what the thing does. This is exactly how we approach organizing code in the simplest way.
+
+**In this page we will cover:**
+
+- What cohesion is and why we want it to be as high as possible
+- A method for splitting up components based on what they do
+- How we can reorganize our template to make it easier to understand and work with
+- Don't worry if this seems basic to you, this is just the first lesson. We'll get into more complicated methods like component seams and levels of abstraction later on.
+
+## Why low cohesion is a bad thing
+
+We want to group similar code together as best as we can.
+
+This concept is know as cohesion. High cohesion is good, and low cohesion is bad — it's a sign of disorganized and chaotic code.
+
+When you have code that does different things all mixed together, it makes a lot of things more difficult.
+
+## It's more difficult to understand
+
+Instead of all the code working together towards a common goal, different parts of the code are doing different things. This makes it unclear which parts are doing what.
+
+## Reusing the code is also more difficult
+
+The pieces that do one specific thing are scattered in between other, irrelevant code. If you want to pull those pieces out into a separate component, you've got a lot of work to do!
+
+## It also encourages a lot of changes to happen in that file
+
+If a component is responsible for 3 different features, when any of those 3 features is changed the file will be affected. Ideally we would be able to write code and never have to touch it again.
+
+The problem gets worse though, because the more features a component handles, the more likely it is that two (or more!) developers will be working on it at the same time. Now you're just asking for git merge conflicts and lots of headaches trying to merge your changes in!
+
+## **Where to split the template**
+
+Based on this concept, we'll be looking for natural groups in our template. Normally code will be gathered together based on the function or task it is carrying out.
+
+When we notice that there is a change in what the code is doing, that's probably a good place to split it up:
+
+```html
+<template>
+  <div>
+    <!-- Task 1 -->
+    <!-- ... -->
+
+    <!-- Task 2 -->
+    <!-- ... -->
+
+    <!-- Task 3 -->
+    <!-- ... -->
+  </div>
+</template>
+```
+
+We can refactor this component by extracting the code related to each of those 3 different tasks:
+
+```html
+<template>
+  <div>
+    <Task1 />
+    <Task2 />
+    <Task3 />
+  </div>
+</template>
+```
+
+## **Reorganizing a real component**
+
+Here is an example of a component that performs several different functions.
+
+Take a minute or two to read through it, and try and come up with a good name for this component (it's not that easy!):
+
+```html
+<template>
+  <div v-if="viewing" class="file-view">
+    <div v-if="viewing.type === 'mp4'">
+      <div class="video-big">
+        <video playsinline loop controls>
+          <source type="video/mp4" :src="viewing.url" />
+        </video>
+      </div>
+    </div>
+    <div v-else class="image-big">
+      <div :style='{ "background-image": `url("${viewing.url}")` }' />
+    </div>
+
+    <div class="info-area">
+      <div class="flex-row">
+        <button @click="$emit('previousItem')">Previous</button>
+        <button @click="$emit('nextItem')">Next</button>
+      </div>
+
+      <div>Size</div>
+      <div>{{viewing.size}}</div>
+      <div>Created</div>
+      <div>{{cleanTime(viewing.created)}} ({{niceTime(viewing.created)}})</div>
+      <div>Origin Location</div>
+      <div>{{viewing.originLocation}}</div>
+      <button @click="show">Show in Dump</button>
+      <button @click="open">Open File</button>
+
+      <div class="flex-row">
+        <button @click="save">
+          {{saved ? 'Done!' :'Quick Save ( ͡° ͜ʖ ͡°)'}}
+        </button>
+        <button @click="saveAs">{{savedAs ? 'Done!' :'Export'}}</button>
+      </div>
+
+      <button @click="deleteItem">Big Delete</button>
+    </div>
+  </div>
+</template>
+```
+
+It's not easy to do, is it?
+
+The reason why it's so difficult to come up with a single, good name for this component, is because it doesn't do just a single thing. Sometimes that's okay, but more often than not it means the component isn't focused and well thought out.
+
+Because it does so many different things, it has low cohesion, and is harder to maintain.
+
+**We'll put out these 4 different components:**
+
+1. ViewFile component
+2. Pagination component
+3. MetaData component
+4. FileActions component
+
+**Let's get refactoring!**
+
+## ViewFile component
+
+Starting at the top of the file, I immediately notice that we have a `v-if/v-else` statement.
+
+By reading into it further, I can tell that this code is responsible for displaying the file, either a video or an image.
+
+```vue
+<template>
+  <div v-if="type === 'mp4'">
+    <div class="video-big">
+      <video playsinline loop controls>
+        <source type="video/mp4" :src="url" />
+      </video>
+    </div>
+  </div>
+  <div v-else class="image-big">
+    <div :style="{ 'background-image': `url(&quot;${url}&quot;)` }" />
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ViewFile",
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
+};
+</script>
+```
+
+## Pagination component
+
+We'll call this component Pagination:
+
+```vue
+<template>
+  <div class="flex-row">
+    <button @click="$emit('previous')">Previous</button>
+    <button @click="$emit('next')">Next</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Pagination",
+};
+</script>
+```
+
+## Metadata component
+
+```vue
+<!-- Metadata.vue -->
+<template>
+  <div>
+    <div>Size</div>
+    <div>{{ meta.size }}</div>
+    <div>Created</div>
+    <div>{{ meta.cleanTime }} ({{ meta.niceTime }})</div>
+    <div>Origin Location</div>
+    <div>{{ meta.originLocation }}</div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Metadata",
+  props: {
+    meta: {
+      type: Object,
+      default: () => {},
+    },
+    // size: {
+    // type: String,
+    //  required: true,
+    // },
+    // cleanTime: {
+    // type: String,
+    //  required: true,
+    // },
+    // niceTime: {
+    //  type: String,
+    //  required: true,
+    // },
+    // originLocation: {
+    //  type: String,
+    //  required: true,
+    // },
+  },
+};
+</script>
+```
+
+## FileActions component
+
+Lastly, we have a bunch of buttons that perform various actions on the file we're viewing:
+
+```vue
+<template>
+  <div>
+    <button @click="$emit('show')">Show in Dump</button>
+    <button @click="$emit('open')">Open File</button>
+
+    <div class="flex-row">
+      <button @click="$emit('save')">
+        {{ saved ? "Done!" : "Quick Save ( ͡° ͜ʖ ͡°)" }}
+      </button>
+      <button @click="$emit('save-as')">
+        {{ savedAs ? "Done!" : "Export" }}
+      </button>
+    </div>
+
+    <button @click="$emit('delete-file')">Big Delete</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "FileActions",
+};
+</script>
+```
+
+We have to use delete-file instead of delete, because delete is a reserved word in Javascript.
+
+And now the final, clean, refactored component!
+
+```vue
+<template>
+  <div v-if="viewing" class="file-view">
+    <ViewFile :type="viewing.type" :url="viewing.url" />
+
+    <div class="info-area">
+      <Pagination @previous="$emit('previousItem')" @next="$emit('nextItem')" />
+
+      <Metadata :meta="meta" />
+
+      <FileActions
+        @show="show"
+        @open="open"
+        @save="save"
+        @save-as="save - as"
+        @delete-file="deleteFile"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      meta: {
+        size: 1,
+        originLocation: "Location",
+        created: new Date(),
+        niceTime: new Date(),
+      },
+    };
+  },
+};
+</script>
+```
+
+It looks so much better, and it is much easier to understand as well.
+
+## Summary
+
+Did you notice how easy and natural it was to name the new components that we created? It's because they were laser focused, and had only one very specific thing to do.
+
+And this main component should be easier to name, too, since we can see with a quick glance what it's responsible for.
+
+Just by looking at those 4 main components you can tell that it lets you view a file, move forwards and backwards to other files, view metadata on the file, and perform different actions on the file.
+
+There are two main steps you want to follow:
+
+Group elements together based on the task they perform
+
+- Pay attention to where the task being performed changes, you might want a new component at those seams
+- Often wrapper divs and class names will give you clues as to what the natural groupings are and where those seams are.

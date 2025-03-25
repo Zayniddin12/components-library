@@ -1,0 +1,73 @@
+import { Story, ArgsTable } from "@storybook/addon-docs";
+import SRadio from "./SButton.vue";
+
+# Button
+
+## **Overview**
+
+The Button component is a customizable button that can be used in a Vue.js application. It has 11 props that can be used to customize the appearance and behavior of the button. It also has 3 variants which is primary, secondary and danger and danger-outline.
+
+## **Props**
+
+The following props can be passed to the Button component:
+
+| Props         | Description                                                                                               |
+| ------------- | --------------------------------------------------------------------------------------------------------- |
+| text:         | A string that sets the text content of the button. (default: "")                                          |
+| textClass:    | A string that sets the CSS class of the text content.                                                     |
+| shadowColor:  | A string that sets the color of the button's shadow.                                                      |
+| hasShadow:    | A boolean that sets whether the button has a shadow. (default: true)                                      |
+| spinnerColor: | A string that sets the color of the loading spinner.                                                      |
+| disabled:     | A boolean that sets whether the button is disabled. (default: false)                                      |
+| loading:      | A boolean that sets whether the button is in a loading state. (default: false)                            |
+| type:         | A string that sets the HTML "type" attribute of the button. (default: "button")                           |
+| variant:      | A string that sets the variant of the button. Can be "primary", "secondary", "danger" or "danger-outline" |
+| icon:         | A string that sets the icon to be displayed on the button.                                                |
+| iconClass:    | A string that sets the CSS class of the icon.                                                             |
+
+## **Variants**
+
+The following variants can be passed to the variant prop:
+
+| Variant         | Description                                            |
+| --------------- | ------------------------------------------------------ |
+| primary:        | Renders the button with a primary color.               |
+| secondary:      | Renders the button with a secondary color.             |
+| danger:         | Renders the button with a danger color.                |
+| danger-outline: | Renders the button with a danger color and an outline. |
+
+## **Events**
+
+| Event | Description                                          |
+| ----- | ---------------------------------------------------- |
+| click | A click event is emitted when the button is clicked. |
+
+## Example
+
+```
+<template>
+  <div>
+    <Button
+      :text="'My Button'"
+      :variant="'primary'"
+      @click="onClick"
+    />
+  </div>
+</template>
+
+<script>
+import Button from './Button.vue'
+
+export default {
+  components: {
+    Button
+  },
+  methods: {
+    onClick() {
+      console.log('Button clicked');
+    }
+  }
+}
+</script>
+
+```

@@ -1,0 +1,55 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Guidelines / How to write Readme file" />
+
+# How to write Readme file for project
+
+---
+
+First you should clarify project name, for example, in the below, I showed `Your website name`.
+
+# `Your website name`
+
+Then, you should write frontend framework which is used in this project. For example, you can write Vue 3, Nuxt 2 or Nuxt 3 and then, you can continue with programming language or CSS frameworks and so on.
+
+### Technology:
+
+- Nuxt 3
+- TypeScript
+- Tailwind CSS
+- Node `<Your Node version>` (eg: v16.19.0)
+
+We can have SSR and SSG projects. If we enable SSR then, you should write `Mode: SSR`, otherwise `Mode: SSG`
+
+### MODE: SSR
+
+It would be great, if you give an instruction for building project and deploying it for DevOps.
+
+## Production build
+
+```bash
+yarn
+yarn install
+yarn build
+pm2 restart <id>
+```
+
+## Development Server
+
+Start the development server on http://localhost:3000
+
+```bash
+yarn dev
+```
+
+## Storybook development
+
+```bash
+yarn storybook
+```
+
+## Storybook production
+
+```bash
+yarn build:storybook
+```

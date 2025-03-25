@@ -1,0 +1,37 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Guidelines / JavaScript / Frameworks/ Vue 3 / Structure" />
+
+# Structure
+
+```javascript
+src / -components / -stories / -pages / -layouts / -stores / -(-index.ts) -
+  router / -(-index.ts) -
+  -routes.ts -
+  services / -(-index.ts) -
+  types / -(-index.ts);
+```
+
+# Nesting
+
+If a **Component**, **Story**, **Form**, or **Type** is used only in one domain, it can be nested.
+
+```javascript
+src /
+  -(-components) /
+  -(-(-Breadcrumb)) /
+  -(-(-(-stories))) /
+  -(-(-(-(-SBreadcrumb.vue)))) -
+  -(-(-(-SBreadcrumb.stories.ts))) -
+  -(-(-CBreadcrumb.vue)) -
+  -pages / -(-(-Index)) / -(-(-(-components))) / -(-(-(-(-CGraph.vue)))) -
+  -(-(-stories)) / -(-(-(-(-SGraph.vue)))) -
+  -(-(-(-SGraph.stories.ts))) -
+  -(-(-forms)) / -(-(-(-(-FFeedback.vue)))) -
+  -(-(-PIndex.vue)) -
+  -layouts / -(-(-Dashboard)) -
+  -(-(-components)) / -(-(-(-(-CNavigation.vue)))) -
+  -(-(-stories)) / -(-(-(-(-SNavigation.vue)))) -
+  -(-(-(-SNavigation.stories.ts))) -
+  -(-(-LDashboard.vue));
+```

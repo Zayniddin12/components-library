@@ -1,0 +1,19 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Guidelines / JavaScript / Frameworks / Nuxt 3 / Error handling" />
+
+# Error handling
+
+**If your request return 404 error in single page. You need add this👇 to your catch function and `statusCode`**.
+
+## Handling `404`
+
+```javascript
+showError({ statusCode: 404 });
+```
+
+**❌ Don't do this**
+
+```javascript
+router.push("/404");
+```

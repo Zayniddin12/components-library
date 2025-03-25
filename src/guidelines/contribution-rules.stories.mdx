@@ -1,0 +1,137 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Guidelines / Contribution rules" />
+
+# Contribute to 🤗 Frontend TEAM Library and Documentations
+
+Everyone is welcome to contribute, and we value everybody's contribution. Code
+contributions are not the only way to help the community. Answering questions, helping
+others, and improving the documentation are also immensely valuable.
+
+However you choose to contribute, please be mindful.
+
+**This guide was heavily inspired by the awesome [transformers guide to contributing](https://github.com/huggingface/transformers/blob/main/CONTRIBUTING.md).**
+
+## Ways to contribute
+
+There are several ways you can contribute to us:
+
+- Fix outstanding issues with the existing code.
+- Submit issues related to bugs or desired new features.
+- Implement new components, function, composables.
+- Contribute to the examples or to the documentation.
+
+<!--  Todo: Contribution for beginners-->
+
+If you don't know where to start, there is a special [Good First
+Issue](https://github.com/huggingface/transformers/contribute) listing. It will give you a list of
+open issues that are beginner-friendly and help you start contributing to open-source. Just comment in the issue that you'd like to work
+on it.
+
+> All contributions are equally valuable to the community. 🥰
+
+## Fixing outstanding issues
+
+If you notice an issue with the existing code and have a fix in mind, feel free to start contributing and open a Pull Request!
+
+## Submitting a bug-related issue or feature request
+
+Do your best to follow these guidelines when submitting a bug-related issue or a feature
+request. It will make it easier for us to come back to you quickly and with good
+feedback.
+
+## Do you want to implement a new component?
+
+New models are constantly released and if you want to implement a new component, please provide the following information
+
+- A short description of the component and link to the paper.
+
+<!-- We have added a [detailed guide and templates](https://github.com/huggingface/transformers/tree/main/templates) to help you get started with adding a new model, and we also have a more technical guide for [how to add a model to 🤗 Transformers](https://huggingface.co/docs/transformers/add_new_model). -->
+
+## Do you want to add documentation?
+
+We're always looking for improvements to the documentation that make it more clear and accurate. Please let us know how the documentation can be improved such as typos and any content that is missing, unclear or inaccurate. We'll be happy to make the changes or help you make a contribution if you're interested!
+
+<!-- For more details about how to generate, build, and write the documentation, take a look at the documentation [README](https://github.com/huggingface/transformers/tree/main/docs). -->
+
+## Create a Pull Request
+
+Before writing any code, we strongly advise you to search through the existing PRs or
+issues to make sure nobody is already working on the same thing. If you are
+unsure, it is always a good idea to open an issue to get some feedback.
+
+You will need basic `git` proficiency to contribute. While `git` is not the easiest tool to use, it has the greatest
+manual. Type `git --help` in a shell and enjoy! If you prefer books, [Pro
+Git](https://git-scm.com/book/en/v2) is a very good reference.
+
+<!-- Follow the steps below to start contributing: -->
+
+1. Clone the [repository](https://gitlab.uicgroup.tech/frontend-rd/components.git) to your local disk:
+
+   ```bash
+   $ git clone https://gitlab.uicgroup.tech/frontend-rd/components.git
+   $ cd components
+   ```
+
+2. Create a new branch to hold your development changes:
+
+   **For documentation**
+
+   ```bash
+     $ git checkout -b docs/a-descriptive-name-for-my-changes
+   ```
+
+   **For components, helper functions, composables**
+
+   ```bash
+     $ git checkout -b feature/a-descriptive-name-for-my-changes
+   ```
+
+   🚨 **Do not** work on the `main/master` branch!
+
+   Once you're happy with your changes, add changed files with `git add` and
+   record your changes locally with `git commit`:
+
+   ```bash
+   $ git add modified_file.py
+   $ git commit
+   ```
+
+   Please remember to write [good commit messages](https://chris.beams.io/posts/git-commit/) to clearly communicate the changes you made!
+
+   Push your changes to your branch:
+
+   ```bash
+   $ git push -u origin a-descriptive-name-for-my-changes
+   ```
+
+3. Now you can go to your fork of the repository on GitHub and click on **Pull request** to open a pull request. Make sure you tick off all the boxes in our Pull request checklist below. When you're ready, you can send your changes to the project maintainers for review.
+
+4. It's ok if maintainers request changes, it happens to our core contributors
+   too! So everyone can see the changes in the pull request, work in your local
+   branch and push the changes to your fork. They will automatically appear in
+   the pull request.
+
+### Pull request checklist
+
+- The pull request title should summarize your contribution.
+- If your pull request addresses an issue, please mention the issue number in the pull
+  request description to make sure they are linked (and people viewing the issue know you
+  are working on it).
+- To indicate a work in progress please prefix the title with `[WIP]`. These are
+  useful to avoid duplicated work, and to differentiate it from PRs ready to be merged.
+- Make sure existing tests pass.
+
+### Tests
+
+Coming soon
+
+### Style guide
+
+Coming soon
+
+<!-- For documentation strings, 🤗 Transformers follows the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). -->
+
+<!-- Check our [documentation writing guide](https://github.com/huggingface/transformers/tree/main/docs#writing-documentation---specification) -->
+
+<!-- for more information. -->

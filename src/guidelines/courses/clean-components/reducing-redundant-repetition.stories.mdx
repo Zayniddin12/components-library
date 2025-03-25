@@ -1,0 +1,356 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title=" Courses/ Clean Components / Reducing redundant repetition" />
+
+# Reducing redundant repetition
+
+The applications that we write are filled with repetition. For example:
+
+A navbar with 12 nav items, the only difference being the text and where it takes you
+A newsfeed with a never-ending list of images to double-tap
+A countdown timer that's used in multiple places
+But just because the user interface repeats, it doesn't mean your code needs to be repetitive as well.
+
+This is exactly why we invented computers — to do the tedious, boring things for us!
+
+We know we can reduce duplicated code by reusing components, but it certainly doesn't stop there.
+
+In this lesson we'll be covering:
+
+Why repeated code in your components is a problem
+Cleaning up tangled messes using v-for, with a real case study
+Using a declarative, dynamic, and data-driven approach to reducing repetition
+At the very end we'll also discuss some of the tradeoffs that we had to make along the way.
+
+So let's get into it!
+
+**Why repeated code is a problem**
+
+As software developers we're always looking for ways to get more done with less work.
+
+So why write something multiple times when you can you write it just once?
+
+By reducing repeated code, you can greatly simplify your components. This makes them easier to read and understand.
+
+This is the concept of DRY, or don't repeat yourself.
+
+And less code means less bugs! 🐛
+
+Plus, if you've copy and pasted code in a bunch of places, what happens when you need to change it in the future? You have to go around and make that same change everywhere you've copy and pasted it.
+
+![alt image](https://media.giphy.com/media/67SXeoc8RLwvqCwn2F/giphy.gif)
+
+Gross.
+
+Trust me, it's not a fun task.
+
+## Getting rid of repetition
+
+Here we have a Menu component that has a lot of repeated sections.
+
+Right now the template is 181 lines long, but there is definitely a lot we can do to simplify this component and make it easier to work with.
+
+You don't have to read through this whole component if you don't want to. We'll explain what's going on here and then walk through it step-by-step.
+
+```vue
+<template>
+  <Flexbox class="menubar">
+    <Flexbox align-items="center" class="menubar__list">
+      <!-- File -->
+      <div @click="fileActive = true">
+        <div class="menubar__list__item">File</div>
+        <DropdownList
+          v-if="fileActive"
+          class="menubar__list__item__dropdown"
+          @mouseleave="fileActive = false"
+        >
+          <DropdownItem @click="newRepository"> New repository </DropdownItem>
+          <DropdownItem @click="addLocalRepository">
+            Add local repository
+          </DropdownItem>
+          <DropdownItem @click="cloneRepository">
+            Clone repository
+          </DropdownItem>
+          <DropdownItem
+            v-if="currentRepository !== undefined"
+            @click="switchRepository"
+          >
+            Switch repository
+          </DropdownItem>
+
+          <DropdownDivider />
+
+          <DropdownItem @click="appOptions"> Options </DropdownItem>
+          <DropdownItem @click="exitApp"> Exit </DropdownItem>
+        </DropdownList>
+      </div>
+
+      <!-- View -->
+      <div @click="viewActive = true">
+        <div class="menubar__list__item">View</div>
+        <DropdownList
+          v-if="viewActive"
+          class="menubar__list__item__dropdown"
+          @mouseleave="viewActive = false"
+        >
+          <DropdownItem @click="gitCommands"> Git commands </DropdownItem>
+
+          <DropdownDivider />
+
+          <DropdownItem @click="fullScreenView">
+            Toggle full screen
+          </DropdownItem>
+          <DropdownItem @click="openDevTools">
+            Toggle developer tools
+          </DropdownItem>
+        </DropdownList>
+      </div>
+
+      <!-- Repository -->
+      <div
+        v-if="currentRepository !== undefined"
+        @click="repositoryActive = true"
+      >
+        <div class="menubar__list__item">Repository</div>
+        <DropdownList
+          v-if="repositoryActive"
+          class="menubar__list__item__dropdown"
+          @mouseleave="repositoryActive = false"
+        >
+          <DropdownItem @click="viewOnGithub"> View on GitHub </DropdownItem>
+          <DropdownItem @click="openPowerShell">
+            Open in PowerShell
+          </DropdownItem>
+          <DropdownItem @click="openFileExplorer">
+            Show in Explorer
+          </DropdownItem>
+          <DropdownItem @click="openEditor"> Open in Code editor </DropdownItem>
+
+          <DropdownDivider />
+
+          <DropdownItem @click="openRepositorySettings">
+            Repository settings
+          </DropdownItem>
+        </DropdownList>
+      </div>
+
+      <!-- Branch -->
+      <div v-if="currentRepository !== undefined" @click="branchActive = true">
+        <div class="menubar__list__item">Branch</div>
+        <DropdownList
+          v-if="branchActive"
+          class="menubar__list__item__dropdown"
+          @mouseleave="branchActive = false"
+        >
+          <DropdownItem @click="newBranch"> New branch </DropdownItem>
+          <DropdownItem @click="renameBranch"> Rename branch </DropdownItem>
+          <DropdownItem @click="deleteBranch"> Delete branch </DropdownItem>
+
+          <DropdownDivider />
+
+          <DropdownItem @click="updateToMaster">
+            Update to master
+          </DropdownItem>
+          <DropdownItem @click="compareToMaster">
+            Compare to master
+          </DropdownItem>
+          <DropdownItem @click="mergeIntoCurrent">
+            Merge into current branch
+          </DropdownItem>
+          <DropdownItem @click="compareOnGithub">
+            Compare on GitHub
+          </DropdownItem>
+          <DropdownItem @click="createPullRequest">
+            Create pull request
+          </DropdownItem>
+        </DropdownList>
+      </div>
+
+      <!-- Help -->
+      <div @click="helpActive = true">
+        <div class="menubar__list__item">Help</div>
+        <DropdownList
+          v-if="helpActive"
+          class="menubar__list__item__dropdown"
+          @mouseleave="helpActive = false"
+        >
+          <DropdownItem @click="switchRepository"> Welcome </DropdownItem>
+          <DropdownItem @click="reportIssue"> Report issue </DropdownItem>
+          <DropdownItem @click="contactSupport"> Contact support </DropdownItem>
+
+          <DropdownDivider />
+
+          <DropdownItem @click="showUserGuides">
+            Show User Guides
+          </DropdownItem>
+          <DropdownItem @click="showLogs"> Show logs in Explorer </DropdownItem>
+          <DropdownItem @click="about"> About </DropdownItem>
+        </DropdownList>
+      </div>
+    </Flexbox>
+  </Flexbox>
+</template>
+```
+
+**First let's understand what's going on in this component.**
+
+This is a menu component taken from a tool for browsing Git repositories. In it we have 5 menus:
+
+- File
+- View
+- Repository
+- Branch
+- Help
+
+Each of these menus uses a `DropdownList` component with `DropdownItem` components inside for each menu item. There is also a `DropdownDivider` component which adds in a divider between the menu items.
+
+When the user clicks on the div that wraps a menu, it sets the corresponding flag to true, and the `DropdownList` is displayed. As soon as the user's mouse leaves the menu though, it's set back to false and the menu hides itself again.
+
+This is repeated for each of the 5 menus we have.
+
+Although this component isn't too bad, there's still a lot we can do to simplify it and make it easier to work with. So let's get going!
+
+## Refactoring a single menu
+
+First we need to figure out what our strategy here will be.
+
+Since each menu is performing a distinct function, we could apply what we learned from the previous lesson and break each menu into it's own component. That would clean things up a bit, but we can do much better than that.
+
+Let's focus in on one of the menus, and once we figure out how to simplify that we'll be able to apply it to all of the others. We'll look at the `Branch` menu:
+
+```html
+<!-- Branch -->
+<div v-if="currentRepository !== undefined" @click="branchActive = true">
+  <div class="menubar__list__item">Branch</div>
+  <DropdownList
+    v-if="branchActive"
+    class="menubar__list__item__dropdown"
+    @mouseleave="branchActive = false"
+  >
+    <DropdownItem @click="newBranch"> New branch </DropdownItem>
+    <DropdownItem @click="renameBranch"> Rename branch </DropdownItem>
+    <DropdownItem @click="deleteBranch"> Delete branch </DropdownItem>
+
+    <DropdownDivider />
+
+    <DropdownItem @click="updateToMaster"> Update to master </DropdownItem>
+    <DropdownItem @click="compareToMaster"> Compare to master </DropdownItem>
+    <DropdownItem @click="mergeIntoCurrent">
+      Merge into current branch
+    </DropdownItem>
+    <DropdownItem @click="compareOnGithub"> Compare on GitHub </DropdownItem>
+    <DropdownItem @click="createPullRequest">
+      Create pull request
+    </DropdownItem>
+  </DropdownList>
+</div>
+```
+
+The majority of this component is the `DropdownItem` component repeated 8 times. We can replace this repetition with a `v-for`:
+
+To do this we'll collapse each usage of the `DropdownItem` component into a single one.
+
+That's what we'll tackle next.
+
+## Repeating each menu item — elegantly
+
+Here is the rewritten section, which loops over each menu item:
+
+```html
+<template>
+  <!-- Branch -->
+  <div v-if="currentRepository !== undefined" @click="branchActive = true">
+    <div class="menubar__list__item">Branch</div>
+    <DropdownList
+      v-if="branchActive"
+      class="menubar__list__item__dropdown"
+      @mouseleave="branchActive = false"
+    >
+      <DropdownItem
+        v-for="menuItem in menuItems"
+        :key="menuItem.text"
+        @click="menuItem.action"
+      >
+        {{ menuItem.text }}
+      </DropdownItem>
+    </DropdownList>
+  </div>
+</template>
+```
+
+We'll ignore the `DropdownDivider` component for now, just to keep things simple.
+
+The result of this refactor is that this section went from 41 lines down to 22 lines, nearly cut in half!
+
+The only part that we changed was how we used the `DropdownItem` component:
+
+```html
+<DropdownItem
+  v-for="menuItem in menuItems"
+  :key="menuItem.text"
+  @click="menuItem.action"
+>
+  {{ menuItem.text }}
+</DropdownItem>
+```
+
+We add in the `v-for`, looping over menuItems, an array that we'll create in just a moment. Since we already have unique text for the menu, we'll use that as our key as well.
+
+The click handler gets replaced by `menuItem.action`, and the menu text is replaced by `menuItem.text`. All that's left now is to create our `menuItems` array.
+
+To create the array we have to look at what all of the `DropdownItem` components were doing before, and copy it into an array that looks like this:
+
+```js
+[
+  {
+    text: "New Branch",
+    action: this.newBranch,
+  },
+  // ...
+];
+```
+
+Once you've done that, you'll end up with an array in your `data()` function like this:
+
+```js
+export default {
+  data() {
+    return {
+      menuItems: [
+        {
+          text: "New Branch",
+          action: this.newBranch,
+        },
+        {
+          text: "Rename Branch",
+          action: this.renameBranch,
+        },
+        {
+          text: "Delete Branch",
+          action: this.deleteBranch,
+        },
+        {
+          text: "Update to Master",
+          action: this.updateToMaster,
+        },
+        {
+          text: "Compare to Master",
+          action: this.compareToMaster,
+        },
+        {
+          text: "Merge Into Current",
+          action: this.mergeIntoCurrent,
+        },
+        {
+          text: "Compare on GitHub",
+          action: this.compareOnGithub,
+        },
+        {
+          text: "Create Pull Request",
+          action: this.createPullRequest,
+        },
+      ],
+    };
+  },
+};
+```

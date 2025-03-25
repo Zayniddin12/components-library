@@ -1,0 +1,41 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Guidelines / JavaScript / Frameworks/ Vue 3 / Routes" />
+
+# Routes
+
+A **Router** is a [Vue Router](https://router.vuejs.org/) instance.
+
+A **Route** is a path in the browser URL field.
+
+**Route** refers to the **Page** entity and wraps with the **Layout** entity.
+
+```typescript
+const routes: RouteRecordRaw[] = [
+  {
+    name: "Index",
+    path: "/",
+    component: () => import("@/pages/PIndex.vue"),
+    meta: {
+      layout: defineAsyncComponent(
+        () => import("@/layouts/Dashboard/LDashboard.vue")
+      ),
+    },
+  },
+];
+```
+
+Any **Route** should be named.
+
+---
+
+**Meta tags**
+
+You can use [Vue teleport](https://vuejs.org/guide/built-ins/teleport.html) for **meta tags.**
+
+```javascript
+<teleport to="head">
+  <title>Vue3 Project</title>
+  <meta name="description" content="Boilerplate for your project" />
+</teleport>
+```

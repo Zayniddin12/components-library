@@ -1,0 +1,229 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Functions / Formatters" />
+
+# Formatters
+
+---
+
+### 1. Money mask
+
+**Money mask** is used to mask the number. Example: `7500000` => `7 500 000`. **Make sure** you have installed [maska](https://www.npmjs.com/package/maska) extenstion!
+
+```javascript
+export const moneyMask = {
+  mask: [
+    "D",
+    "##",
+    "###",
+    "# ###",
+    "## ###",
+    "### ###",
+    "# ### ###",
+    "## ### ###",
+    "### ### ###",
+    "# ### ### ###",
+  ],
+  tokens: {
+    D: {
+      pattern: /[1-9]/,
+    },
+  },
+};
+```
+
+### 2. Format money decimal
+
+```javascript
+export function formatMoneyDecimal(number: any, fix = 2, option = "decimal") {
+  let style: string;
+  if (["USD", "RUB"].includes(option)) {
+    style = "currency";
+  } else if (["kilogram", "meter", "percent"].includes(option)) {
+    style = "unit";
+  } else {
+    style = "";
+  }
+
+  const newStyle: string = style;
+  const option2 = {
+    newStyle, //  unit currency percent decimal
+    [newStyle]: option,
+    maximumFractionDigits: fix,
+    minimumFractionDigits: fix,
+  };
+  return number
+    ? new Intl.NumberFormat("ru-RU", option2).format(number)
+    : "0,00";
+}
+```
+
+### 3. Format phone number
+
+**Format phone number** is used to format the phone number. Example: `901234567` => `90 123 45 67` <br />
+**Attention!** If you want to get full formatted phone number, you should add it yourself.
+
+```javascript
+export function formatPhoneNumber(number: string) {
+  const format = number
+    ?.replace(/\D/g, "")
+    .match(/(\d{0,3})(\d{0,2})(\d{0,3})(\d{0,2})(\d{0,2})/);
+  return `+${format && format[1] ? format[1] : ""}
+          (${format && format[2] ? format[2] : ""})
+          ${format && format[3] ? format[3] : ""}
+          ${format && format[4] ? format[4] : ""}
+          ${format && format[5] ? format[5] : ""}`;
+}
+```
+
+### 4. Remove spaces
+
+**Remove spaces** is used to remove all spaces from the given string. Example: `This is a string` => `Thisisastring`
+
+```javascript
+export const removeSpaces = (text: string) => {
+  return text?.replace(/\s/g, "");
+};
+```
+
+### 5. Debounce
+
+**Debounce** is mostly used in API search. For example, you have a search on your website, and once user enters or searches, you should send request to the Back end. This is so bad approach if you do it like this `@input="fetchData"`. Because it causes that every time user enters data or types something it is sent to Back end. EVERY TIME! Therefore, we "invented" this function. How does it work? So, **this function works after 500ms user has stopped typing**.
+
+```javascript
+const timeouts: { [key: string]: any } = {};
+
+const cTimeout = (key = "key") => {
+  if (timeouts[key]) {
+    clearTimeout(timeouts[key]);
+    timeouts[key] = undefined;
+  }
+};
+export const debounce = (key = "key", fn = () => {}, timeout = 500) => {
+  const sTimeout = (key: string, fn: any, timeout: number) => {
+    cTimeout(key);
+
+    timeouts[key] = setTimeout(() => {
+      try {
+        fn();
+      } catch (e) {
+        console.log(e);
+      }
+
+      timeouts[key] = undefined;
+    }, timeout);
+  };
+
+  return sTimeout(key, fn, timeout);
+};
+```
+
+### 6. Number formatter
+
+**Number formatter** is used to format big numbers like `1K` or `1M`
+
+```javascript
+export function nFormatter(num: number, digits: number) {
+  const lookup = [
+    { value: 1, symbol: "" },
+    { value: 1e3, symbol: "k +" },
+    { value: 1e6, symbol: "M +" },
+    { value: 1e9, symbol: "G +" },
+    { value: 1e12, symbol: "T" },
+    { value: 1e15, symbol: "P" },
+    { value: 1e18, symbol: "E" },
+  ];
+  const rx = /.0+$|(.[0-9]*[1-9])0+$/;
+  const item = lookup
+    .slice()
+    .reverse()
+    .find(function (item) {
+      return num >= item.value;
+    });
+  return item
+    ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
+    : "0";
+}
+```
+
+### 7. Validate URL
+
+** Validate URL ** is used to validate the given string is URL or not. Example: `validURL("https://uic.group")` returns `true`. Because it's URL
+
+```javascript
+function validURL(str) {
+  var pattern = new RegExp(
+    "^(https?://)?" + // protocol
+      "((([a-zd]([a-zd-]*[a-zd])*).)+[a-z]{2,}|" + // domain name
+      "((d{1,3}.){3}d{1,3}))" + // OR ip (v4) address
+      "(:d+)?(/[-a-zd%_.~+]*)*" + // port and path
+      "(?[;&a-zd%_.~+=-]*)?" + // query string
+      "(#[-a-zd_]*)?$",
+    "i"
+  ); // fragment locator
+  return pattern.test(str);
+}
+```
+
+### 8. Get text from HTML content
+
+** getText ** is used to get text content from the HTML formatted content. For example, We have:
+
+```html
+<div><mark>Hello</mark> this <b>is</b> an <i>HTML</i> content</div>
+```
+
+```typescript
+function getText(htmlContent: string) {
+  let text: string;
+  const el = document.createElement("div");
+  el.innerHTML = htmlContent;
+  text = el.textContent;
+  el.remove();
+  return text;
+}
+```
+
+### 9. Clear empty objects
+
+** This function ** is used to get rid of empty properties of objects. For example, We have:
+
+```javascript
+filters: {
+    dateFrom: '',
+    dateTo: '',
+    page: 2,
+    count: '',
+    id: 14,
+}
+
+clearEmptyObject(filters)
+
+filters: {
+    page: 2,
+    id: 14,
+}
+```
+
+```typescript
+function clearEmptyObject(object: object) {
+  const objectClone = JSON.parse(JSON.stringify(object));
+  for (const key in objectClone) {
+    const el = objectClone[key];
+    if (!el || JSON.stringify(el) === "{}") {
+      delete objectClone[key];
+    } else if (typeof el === "object" && Object.keys(el).length > 0) {
+      for (const childKey in el) {
+        const childEl = el[childKey];
+        if (!childEl || (Array.isArray(childEl) && childEl.length < 1)) {
+          delete el[childKey];
+          if (typeof el === "object" && Object.keys(el).length < 1) {
+            delete objectClone[key];
+          }
+        }
+      }
+    }
+  }
+  return objectClone;
+}
+```

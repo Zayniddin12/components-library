@@ -1,0 +1,64 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Functions / DaysJs Translations" />
+
+# Formatters
+
+---
+
+### 1. DaysJs Translations for uz and uzs
+
+First you should **relativeTime** and **updateLocale** from dayjs and translations. After imports you must do extend **relativeTime** and **updateLocale**
+
+```javascript
+import "dayjs/locale/uz-latn";
+import "dayjs/locale/ru";
+import relativeTime from "dayjs/plugin/relativeTime";
+import updateLocale from "dayjs/plugin/updateLocale"
+dayjs.extend(relativeTime);
+dayjs.extend(updateLocale);
+```
+
+And here is the example function it takes locale for translations
+```typescript
+export function translateDate(date: Date, locale: string) {
+  return dayjs(date)
+      .locale(locale === "uz" ? "uz-latn" : locale).format("MMMM D, YYYY")
+}
+```
+
+### 1. DaysJs Function FromNow()
+
+First you should **relativeTime** and **updateLocale** from dayjs and translations. After imports you must do extend **relativeTime** and **updateLocale**
+
+here is some example:
+
+```javascript
+function agoTime(date: Date, locale: string) {
+  return dayjs(date)
+      .locale(locale === "uz" ? "uz-latn" : locale)
+      .fromNow();
+}
+```
+
+**Translations for uz-latn**
+
+```javascript
+dayjs.updateLocale('uz-latn', {
+  relativeTime: {
+    future: "%s da",
+    past: "%s oldin",
+    s: 'soniya',
+    m: "daqiqa",
+    mm: "%d daqiqa",
+    h: "soat",
+    hh: "%d soat",
+    d: "a day",
+    dd: "%d kun",
+    M: "oy",
+    MM: "%d oy",
+    y: "yil",
+    yy: "%d yil"
+  }
+})
+```

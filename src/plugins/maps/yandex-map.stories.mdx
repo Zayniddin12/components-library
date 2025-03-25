@@ -1,0 +1,233 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Plugins / Map / Yandex map" />
+
+# Yandex map
+
+**If you want to get current location and name of the place,
+    you can use this [API](https://api-maps.yandex.ru/services/route/v2/masstransit/stop?uri=ymapsbm1%3A%2F%2Ftransit%2Fstop%3Fid%3D1543141255&lang=ru_RU).**
+
+You don’t have to use `vue-yandex-map` plugin, if you only need to show map image. In the below, you can use code snippet.
+
+```javascript
+<a
+  :href="`https://yandex.ru/maps/?pt=${long},${lat}&z=18&l=map`"
+  target="_blank"
+>
+  <img
+    :src="`https://static-maps.yandex.ru/1.x/?ll=${long},${lat}&size=650,350&z=15&l=map&pt=${long},${lat},org`"
+    alt="RepublicMap image"
+  />
+</a>
+```
+# How to use Yandex-map in projects
+**Installation**
+
+
+**Simple Usage ( more can be found [here](https://vue-yandex-maps.github.io/examples/) )**
+```
+npm install vue-yandex-maps
+```
+
+```
+<template>
+  <yandex-map
+    :coords="coords"
+    :zoom="10"
+    @click="onClick"
+  >
+    <ymap-marker
+      :coords="coords"
+      marker-id="123"
+      hint-content="some hint"
+    />
+  </yandex-map>
+</template>
+```
+```
+<script>
+import { yandexMap, ymapMarker, loadYmap } from 'vue-yandex-maps'
+
+export default {
+components: { yandexMap, ymapMarker },
+  data: () => ({
+    coords: [
+      54.82896654088406,
+      39.831893822753904,
+    ],
+    settings: {
+        apiKey: '',
+        lang: 'ru_RU',
+        coordorder: 'latlong',
+        enterprise: false,
+        version: '2.1',
+      },
+   }),
+  async mounted() {
+    await loadYmap({ ...this.settings, debug: true })
+    console.log(ymaps); // здесь доступен весь функционал ymaps
+  },
+  methods: {
+    onClick(e) {
+      this.coords = e.get('coords')
+    }
+  }
+};
+</script>
+```
+**After installation and using this template check if your map is shown or not. If it is not, then use this 😃 **
+
+```
+.ymap-container {
+  height: 400px;
+  width: 100%;
+}
+```
+
+**Some extra information to configure the map**
+# Map controls
+
+```
+        <yandex-map
+          :coords="coords"
+          :settings="settings"
+          :controls="['zoomControl', 'geolocationControl']"
+          :zoom="10"
+          @click="getCoords"
+        >
+          <ymap-marker
+            :coords="coords"
+            marker-id="123"
+            hint-content="some hint"
+          />
+        </yandex-map>
+```
+**If controls is not provided, yandex map uses its own default controls which includes all of them. If you want to remove unnecessary controls or remove all of them, then you should provide controls props.**
+
+**To remove all the controls, you can use the following:**
+```
+:controls="[]"
+```
+**If you want only some specific controls, then define them in controls list, not included controls are not shown in the display. Example:**
+
+```
+:controls="['zoomControl', 'geolocationControl']"
+```
+
+**To learn more about controls, click [here](https://yandex.com/dev/maps/jsapi/doc/2.1/dg/concepts/controls.html)**
+
+# Advanced usages
+**How to search places in yandex maps or get places’ name by chosen coordinates**
+**For this you will need Places API of yandex maps, and of course, this service is not free.**
+
+**[Documentation](https://yandex.com/dev/maps/geosearch/) is provided. [Link](https://developer.tech.yandex.ru/services) for yandex map services and accessing API key.**
+
+**Once you get the Places API key, it takes a day or more than this time, the key to be activated. After all, now you can use the key. Here is the example to search by text:**
+
+```
+`https://search-maps.yandex.ru/v1/?text=${text}&type=geo&lang=ru_RU&apikey=${APIKey}`
+```
+
+**If you want to search by coordinates:**
+
+```
+`https://search-maps.yandex.ru/v1/?text=${coords}&type=geo&lang=ru_RU&apikey=${APIKey}`
+```
+
+**How to use response data**
+
+```
+{
+    "type": "FeatureCollection",
+    "properties": {
+        "ResponseMetaData": {
+            "SearchResponse": {
+                "found": 1,
+                "display": "single",
+                "boundedBy": [
+                    [
+                        69.27202,
+                        41.292176
+                    ],
+                    [
+                        69.280231,
+                        41.298368
+                    ]
+                ]
+            },
+            "SearchRequest": {
+                "request": "Узбекистан, Ташкент, улица Афросиаб, 28/14",
+                "skip": 0,
+                "results": 10,
+                "boundedBy": [
+                    [
+                        37.048427,
+                        55.43644866
+                    ],
+                    [
+                        38.175903,
+                        56.04690174
+                    ]
+                ]
+            }
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    69.276125,
+                    41.295272
+                ]
+            },
+            "properties": {
+                "name": "улица Афросиаб, 28/14",
+                "description": "Ташкент, Узбекистан",
+                "boundedBy": [
+                    [
+                        69.27202,
+                        41.292176
+                    ],
+                    [
+                        69.280231,
+                        41.298368
+                    ]
+                ],
+                "GeocoderMetaData": {
+                    "precision": "exact",
+                    "text": "Узбекистан, Ташкент, улица Афросиаб, 28/14",
+                    "kind": "house"
+                }
+            }
+        }
+    ]
+}
+```
+**To show the Place name and its coords, use this fields:**
+
+```
+  res.data.features.map((item) => {
+     return {
+       value: item.geometry?.coordinates,
+       label: item.properties.GeocoderMetaData.text,
+     }
+  })
+
+```
+**If you just need to launch yandex maps, using only coordinates, then use this url :**
+**If you want a pointer in yandex maps, then use this one:**
+
+```
+https://yandex.ru/maps/?pt=${item?.longitude},${item?.latitude}&z=14&l=map
+```
+
+**If you want only launch and mark the territory, then use this one:**
+
+```
+https://yandex.ru/maps/?ll=${item?.longitude},${item?.latitude}&z=14&l=map
+```
+
+**This docs is for Vue 2, Nuxt 2, to use this docs in Vue 3 and Nuxt 3, you should convert the given code into composition API.**
+

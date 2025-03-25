@@ -1,0 +1,379 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Guidelines / JavaScript / Introduction" />
+
+# Introduction
+
+## ** Operators Precedence (Operatorlarni solishtirish)**
+
+```JavaScript
+
+const now = 2022;
+const ageUmid = now - 1996;
+const ageLinda = now - 1999;
+
+// const bigAge = ageUmid > ageLinda;
+
+// Bu yerda birinchi bulib minus (-) operatori ishlaydi keyin taqqoslash (>) operatori ishlaydi.
+const bigAge = now - 1996 > now - 1999;
+
+let x, y;
+x = y = 25 - 14 - 5; // x = y = 6
+
+console.log(x, y);
+
+const averageAge = ageLinda + ageUmid / 2;
+console.log(averageAge);
+
+/*
+1. (a+b) - Guruhlash
+2. a++ , a-- oshib borish yoki kamayib borish
+3. ++a , --a oshib borish yoki kamayib borish
+4. typeof - turini kursatish
+5. a**b - darajaga kutarish
+6. a*b, a/b, a%b - kupaytirish, bulish, qoldiqli bulish
+7. a+b, a-b - ayrish, qushish
+8. <, <=, >, >= - katta, kichik tenglinglari (taqqoslashlar)
+*/
+
+
+```
+
+## ** The Conditional (Ternary) Operator**
+
+```JavaScript
+
+let age = 25;
+let passport = false;
+
+age > 18 && age < 45
+  ? passport
+    ? console.log("Salom")
+    : console.log("yuq")
+  : age < 7
+  ? console.log("Vapshe kichik ekaniz.")
+  : console.log("Maktab uqirkansiz.");
+
+if (age > 18 && age < 45) {
+  if (passport) {
+    console.log("Salom");
+  } else {
+    console.log("yuq");
+  }
+} else if (age < 7) {
+  console.log("Vapshe kichik ekansiz");
+} else {
+  console.log("Maktab uqirkansiz.");
+}
+
+```
+
+## ** Basic Operators**
+
+```JavaScript
+
+// Minus matematik operatori (x
+
+let now = 2034;
+
+const ageUmid = now - 1996;
+const ageLinda = now - 1999; // 2034 yilini ikki marta yozish urniga uni bitta variable ga olib quyamiz
+
+// console.log(ageUmid);
+// console.log(ageLinda);
+
+//------------------------------------------------------
+
+// ikki ta console.log() yozish urniga bittada ham yozishimiz mumkin. buning uchun varibalelarni (,) vergul bilan ajratamiz
+console.log(ageUmid, ageLinda);
+
+//------------------------------------------------------
+
+// ko'paytirish matematik operatori (*)
+
+const kopaytma = ageUmid * ageLinda;
+console.log(kopaytma);
+
+//------------------------------------------------------
+
+// Bo'lish matematik operatori (/)
+
+const bulish = ageUmid / ageLinda;
+console.log(bulish);
+
+console.log(ageUmid / ageLinda);
+
+//------------------------------------------------------
+
+// Darajaga kutarish 3 ni to'rtinchi darajasi = 3 * 3 * 3 * 3
+
+console.log(3 ** 4); // ikkita kupatirish beligisi darajaga kutaradi
+
+//------------------------------------------------------
+
+// Ikkita variable ni bir biriga qo'shish uchun (+) belgisi ishlatdik , agar buni string ga qulasak ikkita stringni birlashtirib beradi.
+const firstName = "Umid";
+const lastName = "Rustamov";
+console.log(firstName + lastName);
+
+// Agar ikkita suz urtasiga joy tashlamoqchi bulsak
+console.log(firstName + " " + lastName);
+
+//------------------------------------------------------
+
+// Assignment operators, Tenglik operatori (=)
+
+let x = 10 + 15;
+console.log(x);
+
+//ikkita operatorni bitta joyda kelishi (+=)
+
+x += 80; // x = x + 80;
+console.log(x);
+
+//--------------------------
+
+x *= 5; // x = x * 5;
+console.log(x);
+
+//--------------------------
+
+x++; // x = x + 1;
+console.log(x);
+
+//--------------------------
+
+x--; // x = x - 1;
+console.log(x);
+
+//------------------------------------------------------
+
+// Comparison operators, taqqoslash operatorlari
+console.log(ageUmid > ageLinda); // true qaytaradi chunki taqqoslash operatori tugri
+
+console.log(ageUmid >= 50); // false qaytaradi chunki ageumid = 38 ga teng. 38 >= 50  bu xato shuning uchun false.
+
+const isFullAge = ageLinda >= 30;
+console.log(isFullAge);
+
+```
+
+## ** String Methods**
+
+```JavaScript
+
+// 1. indexOf() -> str.indexOf("m") -> m ni turgan urnini kursatadi
+
+// 2. lastIndexOf() -> str.lastIndexOf("y") -> y ni turgan urinini kursatadi. (Oxirigisini kursatadi)
+
+// 3. startsWith() ->  str.startsWith("al") -> agar mani suzim "alleykum" bulsa true qaytaradi, chunki suzimiz "al" bilan boshlangan
+
+// 4. endsWith() -> str.endsWith("lom") -> Agar mani suzim "Salom" bulsa oxiridagi harflarni lom bilan tekshirib kuradi, va shunga qarab true, false qaytaradi
+
+// 5. slice()-> str.slice($start, $end) -> str.slice(1, 4);
+
+// 6. substring() -> str.substring($start, $end) -> str.substring(1, 5); str.subString(4, 2);
+
+// 7. subStr() -> str.subStr($start, $harflarSoni) -> str.subStr(1, 4);
+
+// 8. replace() -> str.replace("l", "ti") ->(salom) -> satiom
+
+// 9. toUpperCase() -> Hamma symbol larni katta qilib beradi. -> str.toUpperCase();
+
+// 10. toLowerCase() -> Hamma symbol larni kichik qilib beradi. -> str.toLowerCase();
+
+// 11. concat() -> String larni bir birga qushib beradi. myStr1= "salom"; myStr2 = "Umid"; myStr1.concat(myStr2, "salomjon", "dddd");
+
+// 12. trim() -> Gapimizning boshidagi va oxiridagi bush joylarni olib tashlash str = "    salom    "  str.trim(); -> Faqat boshdidagi bush joyni olib tashlash uchun -> trimStart() dan foydalanamiz. Faqat oxiridan bush joyni olib tashlash uchun str.trimEnd() dan foydalanamiz.
+
+// 13. charAt() -> Symbolni (faqat bitta) joylashuvi yani indexni kursatadi. str.chartAt(1);
+
+// 14. length -> String nechta symbol qatnashganini bilish uchun kerak. yoki string uzunligini bilish uchun
+
+// 15. join() -> Array da turgan symbol larni (alohida turgan harflar ni) -> birlashtiradi yani string ga utkazadi. arr = ["s", "a", "l", "o", "m"]; arr.join("g"); "sgaglgogmg"
+
+// 16. split() -> String da turgan malumotni Arrayga utkazish.  str = "Toshkent"; arr = str.split(""); arr = str.split("o")
+
+
+```
+
+### **Template**
+
+```JavaScript
+
+let str = "Umid Rustamov";
+
+// 1.indexOf -> number
+const inx = str.indexOf("st");
+console.log(inx);
+
+// 2.lastIndexOf -> number
+const inx1 = str.lastIndexOf("m");
+console.log(inx1);
+
+// 3.startsWith -> boolean
+const inx2 = str.startsWith("ov");
+console.log(inx2);
+
+// 4.endWith -> boolean
+const inx3 = str.endsWith("ov");
+console.log(inx3);
+
+// 5.slice -> String
+const inx4 = str.slice(4, 8); // start, end
+console.log(inx4);
+
+// 6.substring -> String
+const inx5 = str.substring(4, 8);
+console.log(inx5);
+
+// 7. subStr -> String
+const inx6 = str.substr(4, 5); // start, harflar soni
+console.log(inx6);
+
+// 8. replace -> String
+const inx7 = str.replace("Um", "um");
+console.log(inx7);
+
+// 9. toUpperCase() -> String;
+const inx8 = str.toUpperCase();
+console.log(inx8);
+
+// 10. toLowerCase() -> String
+const inx9 = str.toLowerCase();
+console.log(inx9);
+
+// 11. concat -> String
+const str1 = "Salom";
+const inx10 = str1.concat(str);
+console.log(inx10);
+
+// 12.trim -> String
+const ind11 = str.trim();
+console.log(ind11);
+
+// 13. charAt -> char
+const ind12 = str.charAt(8);
+console.log(ind12);
+
+// 14. length -> number;
+const ind13 = str.length;
+console.log(ind13);
+
+const arr1 = ["U", "m", "i", "d"];
+// 15. join -> String -> Array ni String ga ugiryapti
+const ind14 = arr1.join("");
+console.log(ind14);
+
+// 16.split -> array -> String ni Arrayga convert qilish
+const ind15 = str.split(" ");
+console.log(ind15);
+
+```
+
+## **Activating “strict mode”**
+
+```JavaScript
+
+"use strict"; // Qoidalar asosida to'g'ri yozishga yordam beradi
+
+let talabamiSan = false;
+let testdanUtish = true;
+
+if (testdanUtish) {
+  talabamSan = true; // Bu yerda "talabamisan" emas balki yangi "talabamsan" uzgaruvchi paydo buldi. Chunki i ni qoldirib ketdim"
+}
+if (talabamiSan) {
+  // bu ifni ichiga kirmaydi chunki talabamisan hali ham false turibdi. Biz talabamSan o'zgaruvchisiga true berib quyganmiz.
+  console.log("Men talabaman");
+}
+// Agar "use strict" dan foydalansam shunaqa xato yozib ketgan o'zgaruvchilarimni aytib turadi.
+
+const interface = 22; // Bizga interface nomi orqali uzgaruvchi yaratib berdi. Lekin bunday nom orqali uzgaruvchi mumkin emas. Chunki javascriptning reserve suzi hisoblanadi. Shuning oldini olish uchun strict mode bizga bunday nomdan foydalanish mumkin emasliginin aytib turadi.
+
+```
+
+## **Function calling Other Functions**
+
+```JavaScript
+let abetUmmiy;
+let abetSummasi = Number(prompt("abetni kirit:"));
+let oylik = Number(prompt("Oylikni kirit:"));
+
+let abet = function (abetSummasi1) {
+  return abetSummasi1 * 30;
+};
+
+let oylikFoyda = function (oylik) {
+  return oylik - abet(abetSummasi);
+};
+
+console.log(oylikFoyda(oylik));
+
+```
+
+## **Basic Array Operations (Methods)**
+
+```JavaScript
+
+const friends = ["Tolib", "Jafar", "Aziz", "Azizullo"]; //Array yaratib oldim.
+
+// Arrayga yangi element qushish -----------------
+
+// 1-usul. Push methodi orqali (Array oxiridan qushadi yangi elementni)
+friends.push("Jo'raqo'zi");
+console.log(friends);
+
+// 2-usul. Unshift methodi orqali (Array boshidan qushadi yangi elementni)
+friends.unshift("Doston");
+console.log(friends);
+
+// Arraydagi elementni uchirish -----------------
+
+// 1-usul. Pop methodi orqali (Array oxiridagi elemetni uchiradi)
+friends.pop();
+console.log(friends);
+
+// qaysi element ni uchirilganini kurish uchun friends.pop() ni bitta uzgaruvchiga tenglab olamiz.
+const uchirilganElement = friends.pop();
+console.log(uchirilganElement);
+
+// 2-usul. Shift methodi orqali (Arrayni boshidagi element ni uchiradi)
+friends.shift();
+console.log(friends);
+
+// Arraydagi element qaysi o'rinda turganini kurish -----------------
+const urni = friends.indexOf("Tolib");
+console.log(urni); // "Tolib" elementi agar array da mavjud bulsa qaysi urinda turgani chiqarib beradi. Agar mavjud bulmasa har doim "-1" qaytaradi.
+
+// Arrayni ichida biz bergan element bor yoki yuqligini tekshirish
+const tekshir = friends.includes("Aziz"); // Bu method har doim boolean qiymat qaytaradi. Agar element mavjud bulsa arrayni ichida (True) yoki mavjud bulmasa (False)
+
+```
+
+## **Introduction to Objects**
+
+```JavaScript
+// Array ga uxshab bir nechta value larni bitta variable ga joylashtirishni boshqa usuli ham mavjud. Bu Objects deyiladi.
+const umidArray = [
+  "Valisher",
+  "Botirov",
+  2022 - 2002,
+  "Developer",
+  ["Tolib", "Jafar", "Aziz"],
+]; // Shuni endi Object ga utkazamiz.
+
+const umidObject = {
+  firstName: "Valisher",
+  lastName: "Botirov",
+  age: 2022 - 2002,
+  job: "Developer",
+  friends: ["Tolib", "Jafar", "Aziz"],
+};
+
+
+// Object bilan Array ning asosiy farqi:
+// 1. Object da elementning turgan urni ahamiyatga ega emas. Chunki elementlarni nomi orqali chaqiramiz.
+// 2. Array da elementlarni turgan urni muhim, chunki elementni turgan urnini bilmasak, uni chaqirolmaymiz.
+
+```

@@ -1,0 +1,580 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Functions / Sorts function" />
+
+# Sort algorithms
+
+### **1. Bubble sort**
+
+**// Bubble sort Implementation using Javascript**
+
+```typescript
+function bubbleSort(array) {
+  for (var i = 0; i <= array.length - 1; i++) {
+    // Last i elements are already in place
+    for (var j = 0; j < array.length - i - 1; j++) {
+      // Comparing two adjacent numbers
+      // and see if first is greater than second
+      if (array[j] > array[j + 1]) {
+        // Swap them if the condition is true
+        var temp = array[j];
+        array[j] = array[j + 1];
+        array[j + 1] = temp;
+      }
+    }
+  }
+  // Print the sorted array
+  console.log(array);
+}
+```
+
+var array = [23, 43, 12, 56, 35];
+bubbleSort(array);
+
+**Output:**
+[ 12, 23, 35, 43, 56 ] //sorted array
+
+### **2. Insertion sort**
+
+```typescript
+function insertionSort(arr) {
+  for (let i = 1; i < arr.length; i++) {
+    let currentValue = arr[i];
+    let j;
+    for (j = i - 1; j >= 0 && arr[j] > currentValue; j--) {
+      arr[j + 1] = arr[j];
+    }
+    arr[j + 1] = currentValue;
+  }
+  return arr;
+}
+
+```
+
+console.log(insertionSort([2, 1, 3, 7, 5])) // [1, 2, 3, 5, 7]
+
+### **3. QuickSort sort**
+
+```typescript
+
+
+<script>
+// Javascript implementation of QuickSort
+
+
+// A utility function to swap two elements
+function swap(arr, i, j) {
+	let temp = arr[i];
+	arr[i] = arr[j];
+	arr[j] = temp;
+}
+
+/* This function takes last element as pivot, places
+the pivot element at its correct position in sorted
+array, and places all smaller (smaller than pivot)
+to left of pivot and all greater elements to right
+of pivot */
+function partition(arr, low, high) {
+
+	// pivot
+	let pivot = arr[high];
+
+	// Index of smaller element and
+	// indicates the right position
+	// of pivot found so far
+	let i = (low - 1);
+
+	for (let j = low; j <= high - 1; j++) {
+
+		// If current element is smaller
+		// than the pivot
+		if (arr[j] < pivot) {
+
+			// Increment index of
+			// smaller element
+			i++;
+			swap(arr, i, j);
+		}
+	}
+	swap(arr, i + 1, high);
+	return (i + 1);
+}
+
+/* The main function that implements QuickSort
+		arr[] --> Array to be sorted,
+		low --> Starting index,
+		high --> Ending index
+*/
+function quickSort(arr, low, high) {
+	if (low < high) {
+
+		// pi is partitioning index, arr[p]
+		// is now at right place
+		let pi = partition(arr, low, high);
+
+		// Separately sort elements before
+		// partition and after partition
+		quickSort(arr, low, pi - 1);
+		quickSort(arr, pi + 1, high);
+	}
+}
+
+// Function to print an array
+function printArray(arr, size) {
+	for (let i = 0; i < size; i++)
+		document.write(arr[i] + " ");
+
+	document.write("<br>");
+}
+
+// Driver Code
+
+let arr = [10, 7, 8, 9, 1, 5];
+let n = arr.length;
+
+quickSort(arr, 0, n - 1);
+document.write("Sorted array: <br>");
+printArray(arr, n);
+
+// This code is contributed by Saurabh Jaiswal
+</script>
+
+```
+
+
+
+### **4. Selection sort**
+
+```typescript
+
+<script>
+// Javascript program for implementation of selection sort
+function swap(arr,xp, yp)
+{
+	var temp = arr[xp];
+	arr[xp] = arr[yp];
+	arr[yp] = temp;
+}
+
+function selectionSort(arr, n)
+{
+	var i, j, min_idx;
+
+	// One by one move boundary of unsorted subarray
+	for (i = 0; i < n-1; i++)
+	{
+		// Find the minimum element in unsorted array
+		min_idx = i;
+		for (j = i + 1; j < n; j++)
+		if (arr[j] < arr[min_idx])
+			min_idx = j;
+
+		// Swap the found minimum element with the first element
+		swap(arr,min_idx, i);
+	}
+}
+
+function printArray( arr, size)
+{
+	var i;
+	for (i = 0; i < size; i++)
+		document.write(arr[i] + " ");
+	document.write(" <br>");
+}
+
+var arr = [64, 25, 12, 22, 11];
+	var n = 5;
+	selectionSort(arr, n);
+	document.write("Sorted array: <br>");
+	printArray(arr, n);
+
+// This code is contributed by akshitsaxenaa09.
+</script>
+
+
+
+```
+
+### **5.Heap Sort **
+
+```typescript
+
+// JavaScript program for implementation
+// of Heap Sort
+
+	function sort( arr)
+	{
+		var N = arr.length;
+
+		// Build heap (rearrange array)
+		for (var i = Math.floor(N / 2) - 1; i >= 0; i--)
+			heapify(arr, N, i);
+
+		// One by one extract an element from heap
+		for (var i = N - 1; i > 0; i--) {
+			// Move current root to end
+			var temp = arr[0];
+			arr[0] = arr[i];
+			arr[i] = temp;
+
+			// call max heapify on the reduced heap
+			heapify(arr, i, 0);
+		}
+	}
+
+	// To heapify a subtree rooted with node i which is
+	// an index in arr[]. n is size of heap
+	function heapify(arr, N, i)
+	{
+		var largest = i; // Initialize largest as root
+		var l = 2 * i + 1; // left = 2*i + 1
+		var r = 2 * i + 2; // right = 2*i + 2
+
+		// If left child is larger than root
+		if (l < N && arr[l] > arr[largest])
+			largest = l;
+
+		// If right child is larger than largest so far
+		if (r < N && arr[r] > arr[largest])
+			largest = r;
+
+		// If largest is not root
+		if (largest != i) {
+			var swap = arr[i];
+			arr[i] = arr[largest];
+			arr[largest] = swap;
+
+			// Recursively heapify the affected sub-tree
+			heapify(arr, N, largest);
+		}
+	}
+
+	/* A utility function to print array of size n */
+	function printArray(arr)
+	{
+		var N = arr.length;
+		for (var i = 0; i < N; ++i)
+			document.write(arr[i] + " ");
+
+	}
+
+
+	var arr = [12, 11, 13, 5, 6, 7];
+	var N = arr.length;
+
+	sort(arr);
+
+	document.write( "Sorted array is");
+	printArray(arr, N);
+
+
+// This code is contributed by SoumikMondal
+
+
+```
+
+### **5.Merge Sort**
+
+```typescript
+
+<script>
+
+// JavaScript program for Merge Sort
+
+// Merges two subarrays of arr[].
+// First subarray is arr[l..m]
+// Second subarray is arr[m+1..r]
+function merge(arr, l, m, r)
+{
+	var n1 = m - l + 1;
+	var n2 = r - m;
+
+	// Create temp arrays
+	var L = new Array(n1);
+	var R = new Array(n2);
+
+	// Copy data to temp arrays L[] and R[]
+	for (var i = 0; i < n1; i++)
+		L[i] = arr[l + i];
+	for (var j = 0; j < n2; j++)
+		R[j] = arr[m + 1 + j];
+
+	// Merge the temp arrays back into arr[l..r]
+
+	// Initial index of first subarray
+	var i = 0;
+
+	// Initial index of second subarray
+	var j = 0;
+
+	// Initial index of merged subarray
+	var k = l;
+
+	while (i < n1 && j < n2) {
+		if (L[i] <= R[j]) {
+			arr[k] = L[i];
+			i++;
+		}
+		else {
+			arr[k] = R[j];
+			j++;
+		}
+		k++;
+	}
+
+	// Copy the remaining elements of
+	// L[], if there are any
+	while (i < n1) {
+		arr[k] = L[i];
+		i++;
+		k++;
+	}
+
+	// Copy the remaining elements of
+	// R[], if there are any
+	while (j < n2) {
+		arr[k] = R[j];
+		j++;
+		k++;
+	}
+}
+
+// l is for left index and r is
+// right index of the sub-array
+// of arr to be sorted */
+function mergeSort(arr,l, r){
+	if(l>=r){
+		return;//returns recursively
+	}
+	var m =l+ parseInt((r-l)/2);
+	mergeSort(arr,l,m);
+	mergeSort(arr,m+1,r);
+	merge(arr,l,m,r);
+}
+
+// UTILITY FUNCTIONS
+// Function to print an array
+function printArray( A, size)
+{
+	for (var i = 0; i < size; i++)
+	document.write( A[i] + " ");
+}
+
+
+var arr = [ 12, 11, 13, 5, 6, 7 ];
+	var arr_size = arr.length;
+
+	document.write( "Given array is <br>");
+	printArray(arr, arr_size);
+
+	mergeSort(arr, 0, arr_size - 1);
+
+	document.write( "<br>Sorted array is <br>");
+	printArray(arr, arr_size);
+
+// This code is contributed by SoumikMondal
+
+</script>
+
+
+```
+
+### **6.Counting Sort**
+
+```typescript
+Javas<script>
+
+// Javascript implementation of Counting Sort
+function sort(arr)
+{
+	var n = arr.length;
+
+	// The output character array that will have sorted arr
+	var output = Array.from({length: n}, (_, i) => 0);
+
+	// Create a count array to store count of individual
+	// characters and initialize count array as 0
+	var count = Array.from({length: 256}, (_, i) => 0);
+
+
+	// store count of each character
+	for (var i = 0; i < n; ++i)
+		++count[arr[i].charCodeAt(0)];
+	// Change count[i] so that count[i] now contains actual
+	// position of this character in output array
+	for (var i = 1; i <= 255; ++i)
+		count[i] += count[i - 1];
+
+	// Build the output character array
+	// To make it stable we are operating in reverse order.
+	for (var i = n - 1; i >= 0; i--) {
+		output[count[arr[i].charCodeAt(0)] - 1] = arr[i];
+		--count[arr[i].charCodeAt(0)];
+	}
+
+	// Copy the output array to arr, so that arr now
+	// contains sorted characters
+	for (var i = 0; i < n; ++i)
+		arr[i] = output[i];
+	return arr;
+}
+
+// Driver method
+	var arr = [ 'g', 'e', 'e', 'k', 's', 'f', 'o',
+				'r', 'g', 'e', 'e', 'k', 's' ];
+
+	arr = sort(arr);
+	document.write("Sorted character array is ");
+	for (var i = 0; i < arr.length; ++i)
+		document.write(arr[i]);
+
+// This code is contributed by shikhasingrajput
+</script>
+
+
+```
+
+### **7.Radix Sort**
+
+```typescript
+<script>
+// Radix sort Javascript implementation
+
+// A utility function to get maximum value in arr[]
+function getMax(arr,n)
+{
+	let mx = arr[0];
+		for (let i = 1; i < n; i++)
+			if (arr[i] > mx)
+				mx = arr[i];
+		return mx;
+}
+
+// A function to do counting sort of arr[] according to
+	// the digit represented by exp.
+function countSort(arr,n,exp)
+{
+	let output = new Array(n); // output array
+		let i;
+		let count = new Array(10);
+		for(let i=0;i<10;i++)
+			count[i]=0;
+
+		// Store count of occurrences in count[]
+		for (i = 0; i < n; i++)
+			count[Math.floor(arr[i] / exp) % 10]++;
+
+		// Change count[i] so that count[i] now contains
+		// actual position of this digit in output[]
+		for (i = 1; i < 10; i++)
+			count[i] += count[i - 1];
+
+		// Build the output array
+		for (i = n - 1; i >= 0; i--) {
+			output[count[Math.floor(arr[i] / exp) % 10] - 1] = arr[i];
+			count[Math.floor(arr[i] / exp) % 10]--;
+		}
+
+		// Copy the output array to arr[], so that arr[] now
+		// contains sorted numbers according to current digit
+		for (i = 0; i < n; i++)
+			arr[i] = output[i];
+}
+
+// The main function to that sorts arr[] of size n using
+	// Radix Sort
+function radixsort(arr,n)
+{
+	// Find the maximum number to know number of digits
+		let m = getMax(arr, n);
+
+		// Do counting sort for every digit. Note that
+		// instead of passing digit number, exp is passed.
+		// exp is 10^i where i is current digit number
+		for (let exp = 1; Math.floor(m / exp) > 0; exp *= 10)
+			countSort(arr, n, exp);
+}
+
+// A utility function to print an array
+function print(arr,n)
+{
+	for (let i = 0; i < n; i++)
+			document.write(arr[i] + " ");
+}
+
+/*Driver Code*/
+let arr=[170, 45, 75, 90, 802, 24, 2, 66];
+let n = arr.length;
+
+// Function Call
+radixsort(arr, n);
+print(arr, n);
+
+
+// This code is contributed by rag2127
+</script>
+
+
+```
+
+### **8.Bucket Sort**
+
+```typescript
+
+<script>
+// Javascript program to sort an array
+// using bucket sort
+
+// Function to sort arr[] of size n
+// using bucket sort
+function bucketSort(arr,n)
+{
+	if (n <= 0)
+			return;
+
+		// 1) Create n empty buckets
+		let buckets = new Array(n);
+
+		for (let i = 0; i < n; i++)
+		{
+			buckets[i] = [];
+		}
+
+		// 2) Put array elements in different buckets
+		for (let i = 0; i < n; i++) {
+			let idx = arr[i] * n;
+			let flr = Math.floor(idx);
+			buckets[flr].push(arr[i]);
+		}
+
+		// 3) Sort individual buckets
+		for (let i = 0; i < n; i++) {
+			buckets[i].sort(function(a,b){return a-b;});
+		}
+
+		// 4) Concatenate all buckets into arr[]
+		let index = 0;
+		for (let i = 0; i < n; i++) {
+			for (let j = 0; j < buckets[i].length; j++) {
+				arr[index++] = buckets[i][j];
+			}
+		}
+}
+
+// Driver code
+let arr = [0.897, 0.565,
+		0.656, 0.1234,
+		0.665, 0.3434];
+let n = arr.length;
+bucketSort(arr, n);
+
+document.write("Sorted array is <br>");
+for (let el of arr.values()) {
+	document.write(el + " ");
+}
+
+// This code is contributed by unknown2108
+</script>
+
+
+```

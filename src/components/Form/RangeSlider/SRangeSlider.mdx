@@ -1,0 +1,70 @@
+import { Story, ArgsTable } from "@storybook/addon-docs";
+import SRangeSlider from "./SRangeSlider.vue";
+
+# Radio
+
+Radio should not have too many options. Otherwise, use the Select component instead.
+
+## Basic
+
+<Story name="Base" id="components-radio--base-radio" />
+
+```html
+<SRangeSlider v-model="value" name="name" />
+```
+
+## Disabled
+
+`disabled` attribute is used to disable the radio.
+
+You just need to add the `disabled` attribute.
+
+<Story name="Disabled" id="components-radio--disabled" />
+
+```html
+<SRangeSlider v-model="value" name="name" disabled />
+```
+
+## Radio Group
+
+Suitable for choosing from some mutually exclusive options
+
+You have to add required props as `name`, `labelKey`, `valueKey`. Value of `labelKey` and `valueKey` have to be the same with keys of `items` prop.
+
+<Story name="Group" id="components-radio--group" />
+
+```html
+<!-- Tempate -->
+
+<SRangeSlider
+  v-model="value"
+  v-bind="{ items }"
+  name="name"
+  labelKey="name"
+  valueKey="id"
+/>
+```
+
+```js
+// Script
+
+const value = ref([]);
+const items = ref([
+  {
+    id: 1,
+    name: "Name",
+  },
+  {
+    id: 2,
+    name: "Surname",
+  },
+  {
+    id: 3,
+    name: "Birthdate",
+  },
+]);
+```
+
+# [Source code](https://gitlab.uicgroup.tech/frontend-rd/components/-/tree/master/src/components/Radio)
+
+<ArgsTable of={SRangeSlider} />

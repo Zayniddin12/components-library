@@ -1,0 +1,52 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Guidelines / JavaScript / Frameworks/ Nuxt 3 / Components" />
+
+# Component
+
+A Component is a Container described in [Container/Presentational](https://www.patterns.dev/posts/presentational-container-pattern/) .
+
+It should handle business logic and render Story.
+
+The naming should be in Pascal Case. For example: `PascalCaseComponent`. In documentation examples, contributors of Nuxt, they use PascalCase in their examples. [Source](https://github.com/nuxt/framework/tree/main/examples)
+
+## **Folder structure**
+
+As you know, we have common components and page specific components.
+For example, we are building Ecommerce project and we have Product Card which is a common component and we use in several pages.
+
+```
+- Components
+    - Common
+        - Product
+            - Card.vue
+            - CartButon.vue
+            - Rating.vue
+            - Slider.vue
+            - Favourites.vue
+```
+
+Especially, Nuxt 3 has auto import components. If we want to use `ProductCard` component, we should define in template `CommonProductCard` and it will import for us.
+
+**You may ask what about others?**
+
+Imagine, we have About page, this page contains `StatisticsCard`, `DetailCard` and we don't use them in other pages. We should create `About` directory in `Components`.
+
+```
+- Components
+    - About
+        - Card
+            - Statistics
+            - Detail
+```
+
+**In template, you should use**
+
+```
+<template>
+  <div>
+    <CommonProuctCard/>
+    <CommonProductRating/>
+  </div>
+</template>
+```

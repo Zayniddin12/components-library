@@ -1,0 +1,27 @@
+stages:
+  - test
+  - deploy
+test:
+  stage: test
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+
+    - rsync -rult --delete-after --exclude=.git/ --exclude=.gitlab-ci.yml --exclude=.env $CI_PROJECT_DIR/ /home/devserver/web/components
+    - cd /home/devserver/web/components && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash && export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm install 16.18.1 && npm install -g yarn && yarn install && yarn build:storybook
+  tags:
+    - VM1-development(10.0.0.28)
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    - cd /home/devserver/prod/components && rm -rf storybook-static
+    - cd /home/devserver/web/components && cp -r /home/devserver/web/components/storybook-static /home/devserver/prod/components
+  tags:
+    - VM1-development(10.0.0.28)
+  only:
+    - master

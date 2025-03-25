@@ -1,0 +1,76 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Guidelines / Git" />
+
+# Git cheatsheet
+
+## Here is a basic Git cheat sheet:
+
+1. Initialize a new Git repository: `git init`
+2. Check the status of your repository: `git status`
+3. Add changes to the staging area: `git add <file>` or `git add .` to add all changes
+4. Commit changes with a message: `git commit -m "Commit message"`
+5. View commit history: `git log`
+6. Push changes to a remote repository: `git push`
+7. Pull changes from a remote repository: `git pull`
+8. Checkout a branch: `git checkout <branch>`
+9. Create a new branch: `git branch <branch>`
+10. Merge a branch into the current branch: `git merge <branch>`
+11. Compare changes in the working directory with the staging area: `git diff`
+12. Compare changes in the staging area with the most recent commit: `git diff --staged`
+13. Discard changes in the working directory: `git checkout -- <file>`
+14. Revert a commit: `git revert <commit>`
+15. Remove a file from the Git repository: `git rm <file>`
+16. Show the commit history for a specific file: `git log <file>`
+17. Show the changes made in a specific commit: `git show <commit>`
+18. Show the difference between two commits: `git diff <commit> <commit>`
+19. Show all branches and the current branch you are on: `git branch -a`
+20. Show remote repository: `git remote -v`
+
+
+---
+
+
+# Commit message rules
+
+## Types
+
+
+```
+[
+  'build',
+  'chore',
+  'ci',
+  'docs',
+  'feat',
+  'fix',
+  'perf',
+  'refactor',
+  'revert',
+  'style',
+  'test'
+];
+```
+
+## Examples
+
+```
+"foo: some message" # fails
+"fix: some message" # passes
+```
+
+## Scope
+
+```
+// only lowerCase
+"fix(SCOPE): some message" # fails
+"fix(scope): some message" # passes
+```
+
+## Subject
+
+```
+echo "fix:" # fails
+echo "fix: some message" # passes
+echo "fix: some message." # fails
+```

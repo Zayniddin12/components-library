@@ -1,0 +1,29 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="OS / Install nvm on Mac OS" />
+
+# Install nvm on Mac OS
+
+The following steps should help to install NVM:
+
+`$ brew uninstall nvm`
+
+`$ brew cleanup (just for good measure)`
+
+`$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash`
+
+Check that nvm was installed correctly by running `$ command -v nvm`.
+
+4.a If the response is anything other than $ nvm, add the following two lines to the `~/.bash-profile` file: `export NVM_DIR=~/.nvm source ~/.nvm/nvm.sh`
+
+4.b Restart your computer (you can try closing Terminal and restarting it first)
+
+4.c `$ command -v nvm` should now return nvm`
+
+Now update Node.js with `$ nvm install --lts`
+
+Update npm: ``$ nvm install-latest-npm`
+
+`$ npm install --global` mocha.
+
+**Finally, success! Well, for me and I hope for you too.**

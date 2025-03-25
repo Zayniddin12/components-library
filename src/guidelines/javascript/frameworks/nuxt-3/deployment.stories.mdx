@@ -1,0 +1,22 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta title="Guidelines/ Deployment " />
+
+# Deployment
+
+A Nuxt application can be deployed on a Node.js server, pre-rendered for static hosting, or deployed to serverless or edge (CDN) environments.
+
+```js
+module.exports = {
+  apps: [
+    {
+      name: "YIA Website",
+      port: 3001,
+      exec_mode: "cluster",
+      instances: "1",
+      script: "./.output/server/index.mjs",
+      args: "preview",
+    },
+  ],
+};
+```
